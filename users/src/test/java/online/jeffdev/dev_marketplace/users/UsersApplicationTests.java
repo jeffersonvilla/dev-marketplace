@@ -1,10 +1,10 @@
-package online.jeffdev.dev_marketplace.auth;
+package online.jeffdev.dev_marketplace.users;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AuthApplicationTests {
+class UsersApplicationTests {
 
 	@Test
 	void contextLoads() {
