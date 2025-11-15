@@ -11,8 +11,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -24,14 +24,12 @@ public class LinkedInOAuthProviderTest {
     @Test
     void whenFetchingEmailFromProvider_thenReturnsEmail() {
         var provider = new LinkedInOAuthProvider(restTemplate);
-        var mockResponse = new Object() {
-            public String email = "test@example.com";
-        };
-        when(restTemplate.getForObject(anyString(), eq(Object.class))).thenReturn(mockResponse);
+        LinkedInEmailResponse mockResponse = new LinkedInEmailResponse("test@example.com", true, true);
+        when(restTemplate.getForObject(anyString(), any())).thenReturn(mockResponse);
 
         Optional<Email> email = provider.getEmailFromProvider("test-code");
 
         assertTrue(email.isPresent());
-        assertEquals("test@example.com", email.get().getValue());
+        assertEquals(mockResponse.getEmail(), email.get().getValue());
     }
 }

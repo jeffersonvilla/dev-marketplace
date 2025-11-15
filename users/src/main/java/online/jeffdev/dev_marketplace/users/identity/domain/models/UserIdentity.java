@@ -52,4 +52,12 @@ public class UserIdentity {
     public ConfirmationToken getConfirmationToken() {
         return confirmationToken;
     }
+
+    public Email getEmail(){
+        return email;
+    }
+
+    public Password getPassword(){
+        return password;
+    }
 }

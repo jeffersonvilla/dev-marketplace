@@ -12,7 +12,6 @@ import online.jeffdev.dev_marketplace.users.identity.domain.ports.out.OAuthProvi
 import online.jeffdev.dev_marketplace.users.identity.domain.ports.out.UserIdentityRepository;
 
 import java.util.Optional;
-import java.util.UUID;
 
 public class RegisterUser implements RegisterUserUseCase {
 

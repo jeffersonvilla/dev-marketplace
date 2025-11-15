@@ -35,7 +35,7 @@ public class UserRegistrationControllerTest {
     @Test
     void whenRegisteringWithEmailAndPassword_thenReturnsSuccess() throws Exception {
         var registration = new EmailPasswordRegistration("test@example.com", "password");
-        var result = new UserRegistrationResult(true, UUID.randomUUID(), "Success");
+        var result = new UserRegistrationResult(UUID.randomUUID(), true, "Success");
         when(registerUserUseCase.registerWithEmailPassword(any(EmailPasswordRegistration.class))).thenReturn(result);
 
         mockMvc.perform(post("/register/email")
@@ -49,7 +49,7 @@ public class UserRegistrationControllerTest {
     @Test
     void whenRegisteringWithOAuth_thenReturnsSuccess() throws Exception {
         var registration = new OAuthRegistration(OAuthProvider.GITHUB, "test-code");
-        var result = new UserRegistrationResult(true, UUID.randomUUID(), "Success");
+        var result = new UserRegistrationResult(UUID.randomUUID(), true, "Success");
         when(registerUserUseCase.registerWithOAuth(any(OAuthRegistration.class))).thenReturn(result);
 
         mockMvc.perform(post("/register/oauth")

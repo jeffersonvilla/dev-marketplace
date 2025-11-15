@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -84,8 +83,8 @@ class RegisterUserTest {
         void successfulRegistrationGeneratesConfirmationToken() {
             // Given
             var command = new EmailPasswordRegistration("test@example.com", "password123");
-            var userIdentity = new UserIdentity(new Email(command.email()), new Password(command.password()));
-            when(userIdentityRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
+            var userIdentity = new UserIdentity(new Email(command.getEmail()), new Password(command.getPassword()));
+            when(userIdentityRepository.findByEmail(any(Email.class))).thenReturn(Optional.empty());
             when(userIdentityRepository.save(any(UserIdentity.class))).thenReturn(userIdentity);
 
             // When

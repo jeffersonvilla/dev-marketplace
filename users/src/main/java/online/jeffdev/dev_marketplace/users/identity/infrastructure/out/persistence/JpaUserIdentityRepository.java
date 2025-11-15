@@ -1,9 +1,8 @@
 package online.jeffdev.dev_marketplace.users.identity.infrastructure.out.persistence;
 
+import online.jeffdev.dev_marketplace.users.identity.domain.models.Email;
 import online.jeffdev.dev_marketplace.users.identity.domain.models.UserIdentity;
 import online.jeffdev.dev_marketplace.users.identity.domain.ports.out.UserIdentityRepository;
-import online.jeffdev.dev_marketplace.users.identity.infrastructure.out.persistence.SpringUserIdentityRepository;
-import online.jeffdev.dev_marketplace.users.identity.infrastructure.out.persistence.UserIdentityJpaEntity;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -29,15 +28,15 @@ public class JpaUserIdentityRepository implements UserIdentityRepository {
     }
 
     @Override
-    public Optional<UserIdentity> findByEmail(String email) {
-        return Optional.ofNullable(springDataRepository.findByEmail(email)).map(this::toDomainModel);
+    public Optional<UserIdentity> findByEmail(Email email) {
+        return Optional.ofNullable(springDataRepository.findByEmail(email.getValue())).map(this::toDomainModel);
     }
 
     private UserIdentityJpaEntity toJpaEntity(UserIdentity userIdentity) {
         UserIdentityJpaEntity entity = new UserIdentityJpaEntity();
         entity.setId(userIdentity.getId());
         entity.setEmail(userIdentity.getEmail().getValue());
-        entity.setPassword(userIdentity.getPassword() != null ? userIdentity.getPassword().getValue() : null);
+        entity.setPassword(userIdentity.getPassword() != null ? userIdentity.getPassword().getHash() : null);
         // TODO: Map other fields like profileStatus, confirmationStatus, confirmationToken
         return entity;
     }

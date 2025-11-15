@@ -1,10 +1,12 @@
 package online.jeffdev.dev_marketplace.users.identity.infrastructure.out.notification;
 
-import online.jeffdev.dev_marketplace.users.identity.adapter.out.notification.SmtpEmailSender;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mail.SimpleMailMessage;
+
+import online.jeffdev.dev_marketplace.users.identity.domain.models.Email;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -13,23 +15,14 @@ import static org.mockito.Mockito.verify;
 public class SmtpEmailSenderTest {
 
     @Mock
-    private JavaMailSender mailSender;
+    private org.springframework.mail.javamail.JavaMailSender mailSender;
 
     @Test
     void whenSendingConfirmationEmail_thenEmailIsSent() {
         var emailSender = new SmtpEmailSender(mailSender);
-        emailSender.sendConfirmationEmail("test@example.com", "test-token");
+        emailSender.sendConfirmationEmail(new Email("test@example.com"), "test-token");
 
         verify(mailSender).send(any(SimpleMailMessage.class));
     }
 
-    interface JavaMailSender {
-        void send(SimpleMailMessage message);
-    }
-
-    static class SimpleMailMessage {
-        public void setTo(String to) {}
-        public void setSubject(String subject) {}
-        public void setText(String text) {}
-    }
 }
