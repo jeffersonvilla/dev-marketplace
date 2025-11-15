@@ -80,6 +80,23 @@ class RegisterUserTest {
         }
 
         @Test
+        @DisplayName("Should generate a confirmation token on successful registration")
+        void successfulRegistrationGeneratesConfirmationToken() {
+            // Given
+            var command = new EmailPasswordRegistration("test@example.com", "password123");
+            var userIdentity = new UserIdentity(new Email(command.email()), new Password(command.password()));
+            when(userIdentityRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
+            when(userIdentityRepository.save(any(UserIdentity.class))).thenReturn(userIdentity);
+
+            // When
+            registerUser.registerWithEmailPassword(command);
+
+            // Then
+            assertNotNull(userIdentity.getConfirmationToken());
+            assertNotNull(userIdentity.getConfirmationToken().getToken());
+        }
+
+        @Test
         @DisplayName("Should fail registration if email is already in use")
         void registrationFailsForExistingEmail() {
             // Given
